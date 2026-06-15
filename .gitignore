@@ -1,0 +1,24 @@
+# Spring Boot / Java
+backend-api/target/
+backend-api/*.log
+
+# Do not upload real database password
+backend-api/src/main/resources/application.properties
+
+# Android
+android-app/.gradle/
+android-app/local.properties
+android-app/.idea/
+android-app/*.iml
+android-app/app/build/
+android-app/build/
+
+# General
+build/
+target/
+*.class
+*.log
+
+# Windows
+Thumbs.db
+desktop.ini
