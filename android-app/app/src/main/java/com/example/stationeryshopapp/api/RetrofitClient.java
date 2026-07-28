@@ -7,8 +7,7 @@ public class RetrofitClient {
 
     private static Retrofit retrofit;
 
-    private static final String BASE_URL = "http://192.168.1.117:8080/";
-
+    private static final String BASE_URL = "https://professor-thrive-family.ngrok-free.dev/";
     public static ApiService getApiService() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
