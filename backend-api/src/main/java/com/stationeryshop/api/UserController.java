@@ -109,7 +109,7 @@ public class UserController {
             @PathVariable int id) throws Exception {
 
         Map<String, Object> response = new LinkedHashMap<>();
-        String sql = "SELECT id, username, email, phone, address FROM users WHERE id = ?";
+        String sql = "SELECT id, username, email, phone, address, created_at FROM users WHERE id = ?";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -121,8 +121,51 @@ public class UserController {
                 response.put("email", rs.getString("email"));
                 response.put("phone", rs.getString("phone"));
                 response.put("address", rs.getString("address"));
+                response.put("created_at", String.valueOf(rs.getTimestamp("created_at")));
                 return ResponseEntity.ok(response);
             } else {
+                response.put("message", "User not found");
+                return ResponseEntity.status(404).body(response);
+            }
+        }
+    }
+
+    // PUT /users/{id} — update user profile
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> updateUser(
+            @PathVariable int id, @RequestBody Map<String, String> body) throws Exception {
+
+        Map<String, Object> response = new LinkedHashMap<>();
+
+        String username = body.get("username");
+        String phone = body.get("phone");
+        String address = body.get("address");
+
+        if (username == null || username.isEmpty()) {
+            response.put("success", false);
+            response.put("message", "Username is required");
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        String sql = "UPDATE users SET username = ?, phone = ?, address = ? WHERE id = ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            stmt.setString(2, phone);
+            stmt.setString(3, address);
+            stmt.setInt(4, id);
+            int rows = stmt.executeUpdate();
+
+            if (rows > 0) {
+                response.put("success", true);
+                response.put("message", "Profile updated successfully");
+                response.put("username", username);
+                response.put("phone", phone);
+                response.put("address", address);
+                return ResponseEntity.ok(response);
+            } else {
+                response.put("success", false);
                 response.put("message", "User not found");
                 return ResponseEntity.status(404).body(response);
             }

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stationery Za Admin Panel</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+    <!-- ===== LOGIN PAGE ===== -->
+    <div id="login-page" class="login-page">
+        <div class="login-card">
+            <div class="login-brand">
+                <div class="login-logo">SZ</div>
+                <h1>Stationery Za</h1>
+                <p>Admin Dashboard</p>
+            </div>
+            <form onsubmit="event.preventDefault(); handleLogin();">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" class="form-control" id="login-username" placeholder="admin" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" id="login-password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full" id="btn-login">Sign In</button>
+                <p class="login-hint">Default: admin / admin123</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== MAIN APP (hidden until login) ===== -->
+    <div id="app-container" class="app-container" style="display:none;">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>Stationery Za</h1>
+                <p>Admin Panel</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a class="nav-item active" data-page="dashboard" onclick="navigateTo('dashboard')">
+                    <span class="icon">📊</span><span>Dashboard</span>
+                </a>
+                <a class="nav-item" data-page="orders" onclick="navigateTo('orders')">
+                    <span class="icon">📦</span><span>Orders</span>
+                </a>
+                <a class="nav-item" data-page="products" onclick="navigateTo('products')">
+                    <span class="icon">🛍️</span><span>Products</span>
+                </a>
+                <a class="nav-item" data-page="customers" onclick="navigateTo('customers')">
+                    <span class="icon">👥</span><span>Customers</span>
+                </a>
+                <a class="nav-item" data-page="analytics" onclick="navigateTo('analytics')">
+                    <span class="icon">📈</span><span>Analytics</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn btn-outline btn-sm btn-full" onclick="handleLogout()">🚪 Logout</button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- TOP BAR -->
+            <div class="top-bar">
+                <div class="global-search">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="global-search-input" placeholder="Search orders, products, customers..." oninput="globalSearch(this.value)">
+                    <div id="search-results" class="search-results"></div>
+                </div>
+                <div class="top-bar-actions">
+                    <div class="live-indicator" id="live-indicator">
+                        <span class="pulse"></span> Live
+                    </div>
+                    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+                        <span id="theme-icon">🌙</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ===== DASHBOARD PAGE ===== -->
+            <section id="page-dashboard" class="page-section active">
+                <div class="page-header">
+                    <h2>Dashboard</h2>
+                    <p>Real-time overview of your Stationery Za shop</p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card purple">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-value" id="stat-revenue">-</div>
+                        <div class="stat-label">Total Revenue</div>
+                    </div>
+                    <div class="stat-card cyan">
+                        <div class="stat-icon">📦</div>
+                        <div class="stat-value" id="stat-orders">-</div>
+                        <div class="stat-label">Total Orders</div>
+                    </div>
+                    <div class="stat-card mint">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-value" id="stat-customers">-</div>
+                        <div class="stat-label">Customers</div>
+                    </div>
+                    <div class="stat-card purple">
+                        <div class="stat-icon">🛍️</div>
+                        <div class="stat-value" id="stat-products">-</div>
+                        <div class="stat-label">Products</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-icon">⏳</div>
+                        <div class="stat-value" id="stat-pending">-</div>
+                        <div class="stat-label">Pending Orders</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-icon">⚠️</div>
+                        <div class="stat-value" id="stat-lowstock">-</div>
+                        <div class="stat-label">Low Stock</div>
+                    </div>
+                </div>
+
+                <!-- Revenue Goal Tracker -->
+                <div class="goal-card">
+                    <div class="goal-header">
+                        <h3>🎯 Monthly Revenue Goal</h3>
+                        <span class="goal-amount" id="goal-text">R0 / R2,000</span>
+                    </div>
+                    <div class="goal-bar">
+                        <div class="goal-fill" id="goal-fill" style="width:0%"></div>
+                    </div>
+                    <p class="goal-hint" id="goal-hint">Set your monthly target to track progress</p>
+                </div>
+
+                <!-- Two columns: Chart + Activity -->
+                <div class="dashboard-grid">
+                    <!-- Sales Chart -->
+                    <div class="table-card">
+                        <div class="table-header">
+                            <h3>📈 Sales (Last 30 Days)</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Activity Feed -->
+                    <div class="table-card">
+                        <div class="table-header">
+                            <h3>⚡ Recent Activity</h3>
+                        </div>
+                        <div class="activity-feed" id="activity-feed">
+                            <div class="loading">Loading</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Orders + Top Sellers side by side -->
+                <div class="dashboard-grid">
+                    <div class="table-card">
+                        <div class="table-header">
+                            <h3>Recent Orders</h3>
+                            <button class="btn btn-outline btn-sm" onclick="navigateTo('orders')">View All</button>
+                        </div>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead><tr><th>Order</th><th>Customer</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+                                <tbody id="recent-orders-body"><tr><td colspan="5" class="loading">Loading</td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <h3>🏆 Top Sellers</h3>
+                        </div>
+                        <div class="top-sellers" id="top-sellers">
+                            <div class="loading">Loading</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== ORDERS PAGE ===== -->
+            <section id="page-orders" class="page-section">
+                <div class="page-header">
+                    <h2>Orders Management</h2>
+                    <p>View, manage, and update order statuses</p>
+                </div>
+
+                <!-- Bulk Actions Bar -->
+                <div class="bulk-bar" id="bulk-bar" style="display:none;">
+                    <span id="bulk-count">0 selected</span>
+                    <button class="btn btn-primary btn-sm" onclick="bulkUpdateStatus('shipped')">Mark Shipped</button>
+                    <button class="btn btn-success btn-sm" onclick="bulkUpdateStatus('delivered')">Mark Delivered</button>
+                    <button class="btn btn-outline btn-sm" onclick="clearBulkSelection()">Clear</button>
+                </div>
+
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>All Orders</h3>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="select-all-orders" onchange="toggleSelectAllOrders(this)"></th>
+                                    <th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th><th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-table-body"><tr><td colspan="8" class="loading">Loading</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== PRODUCTS PAGE ===== -->
+            <section id="page-products" class="page-section">
+                <div class="page-header">
+                    <h2>Products Management</h2>
+                    <p>Add, edit, manage stock and delete products</p>
+                </div>
+
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>All Products</h3>
+                        <div class="search-bar">
+                            <input type="text" id="product-search" placeholder="Search products..." oninput="filterProducts()">
+                            <button class="btn btn-primary" onclick="showAddProductModal()">+ Add Product</button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead><tr><th>Image</th><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Rating</th><th>Actions</th></tr></thead>
+                            <tbody id="products-table-body"><tr><td colspan="7" class="loading">Loading</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== CUSTOMERS PAGE ===== -->
+            <section id="page-customers" class="page-section">
+                <div class="page-header">
+                    <h2>Customers</h2>
+                    <p>View registered users and their purchase history</p>
+                </div>
+
+                <div class="table-card">
+                    <div class="table-header"><h3>All Customers</h3></div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Orders</th><th>Total Spent</th><th>Joined</th></tr></thead>
+                            <tbody id="customers-table-body"><tr><td colspan="6" class="loading">Loading</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== ANALYTICS PAGE ===== -->
+            <section id="page-analytics" class="page-section">
+                <div class="page-header">
+                    <h2>Analytics</h2>
+                    <p>Sales insights and performance metrics</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card mint">
+                        <div class="stat-icon">📅</div>
+                        <div class="stat-value" id="stat-month-revenue">-</div>
+                        <div class="stat-label">This Month's Revenue</div>
+                    </div>
+                    <div class="stat-card cyan">
+                        <div class="stat-icon">📦</div>
+                        <div class="stat-value" id="stat-month-orders">-</div>
+                        <div class="stat-label">This Month's Orders</div>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <div class="table-header"><h3>📈 Revenue Chart (30 Days)</h3></div>
+                    <div class="chart-container chart-large">
+                        <canvas id="analyticsChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <div class="table-header"><h3>🏆 Top Selling Products</h3></div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead><tr><th>Rank</th><th>Product</th><th>Category</th><th>Units Sold</th><th>Revenue</th></tr></thead>
+                            <tbody id="analytics-top-body"><tr><td colspan="5" class="loading">Loading</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ===== PRODUCT MODAL ===== -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal">
+            <h3 id="modal-title">Add New Product</h3>
+            <form id="product-form" onsubmit="event.preventDefault(); saveProduct();">
+                <input type="hidden" id="product-id">
+                <div class="form-group">
+                    <label>Product Name *</label>
+                    <input type="text" class="form-control" id="product-name" required placeholder="e.g. Black Gel Pen 0.5mm">
+                </div>
+                <div class="form-group">
+                    <label>Category *</label>
+                    <select class="form-control" id="product-category" required>
+                        <option value="">Select Category</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" id="product-description" placeholder="Product description..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Price (R) *</label>
+                    <input type="number" class="form-control" id="product-price" step="0.01" min="0" required placeholder="0.00">
+                </div>
+                <div class="form-group">
+                    <label>Stock Quantity</label>
+                    <input type="number" class="form-control" id="product-stock" min="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Image URL</label>
+                    <input type="url" class="form-control" id="product-image" placeholder="https://images.unsplash.com/..." oninput="previewImage(this.value)">
+                    <div id="image-preview" class="image-preview"></div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== INVOICE MODAL ===== -->
+    <div class="modal-overlay" id="invoice-modal">
+        <div class="modal modal-wide">
+            <div class="invoice-header">
+                <h3>Order Invoice</h3>
+                <button class="btn btn-primary btn-sm" onclick="printInvoice()">🖨️ Print</button>
+            </div>
+            <div id="invoice-content" class="invoice-content"></div>
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="closeInvoiceModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

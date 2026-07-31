@@ -1,7 +1,20 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
     <style name="Base.Theme.StationeryShopApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <!-- Stationery Za Dark Theme -->
+        <item name="colorPrimary">@color/primary_violet_light</item>
+        <item name="colorPrimaryDark">@color/primary_violet</item>
+        <item name="colorAccent">@color/accent_cyan</item>
+        <item name="colorSecondary">@color/accent_cyan</item>
+        <item name="colorTertiary">@color/accent_mint</item>
+        <item name="android:colorBackground">@color/canvas_dark</item>
+        <item name="colorSurface">@color/surface_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorOnSurface">@color/text_primary_dark</item>
+        <item name="colorError">@color/error</item>
+        <item name="android:statusBarColor">@color/canvas_dark</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     </style>
+
 </resources>

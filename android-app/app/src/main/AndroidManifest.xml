@@ -10,6 +10,30 @@
         android:theme="@style/Theme.StationeryShopApp">
 
         <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".WishlistActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".CartActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ProductDetailActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".OrderDetailActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".OrderHistoryActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
 

@@ -1,286 +1,297 @@
-# Stationery Shop App
+<div align="center">
 
-This is a stationery shop Android application connected to a Spring Boot backend API and a MySQL database.
+<img src="https://capsule-render.vercel.app/api?type=rounded&color=gradient&customColorList=6,11,20&height=120&section=header&text=StudyGrid&fontSize=40&fontColor=fff&animation=fadeIn&fontAlignY=50"/>
 
-The system allows users to register, log in, view products, place orders, and submit product reviews.
+**A full-stack e-commerce platform for student stationery**
 
-## Project Structure
+Android App • Spring Boot API • Admin Dashboard • MySQL
 
-```text
-stationery-shop-app
-├── backend-api
-│   └── Spring Boot API
-│
-├── android-app
-│   └── Android Studio mobile app
-│
-├── database
-│   └── stationery_shop.sql
-│
-└── README.md
+![Java](https://img.shields.io/badge/Java-17-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-4-6DB33F?style=flat-square&logo=springboot&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=flat-square&logo=mysql&logoColor=white)
+![Android](https://img.shields.io/badge/Android-Material_3-3DDC84?style=flat-square&logo=android&logoColor=white)
+![License](https://img.shields.io/badge/License-Educational-blue?style=flat-square)
+
+</div>
+
+---
+
+## Overview
+
+StudyGrid is a complete e-commerce system where students can browse and buy stationery supplies through a mobile app, while the shop owner manages everything from a web-based admin dashboard. The Spring Boot backend ties it all together.
+
 ```
+stationery-shop-app/
+├── 📱 android-app/      → Android mobile app (Java + Material Design 3)
+├── ⚙️ backend-api/      → Spring Boot REST API (Java + MySQL)
+├── 🖥️ admin-panel/      → Admin dashboard (HTML/CSS/JS + Chart.js)
+├── 🗄️ database/         → SQL schema and seed data
+├── 📄 DEPLOYMENT.md     → Cloud hosting guide (Railway + Netlify)
+└── 📄 README.md         → You are here
+```
+
+---
 
 ## Tech Stack
 
-### Backend
+| Layer | Technology |
+|:------|:-----------|
+| **Mobile** | Java, XML, Retrofit, Glide, Material Design 3 |
+| **Backend** | Java 17, Spring Boot 4, JDBC, MySQL |
+| **Admin Web** | HTML5, CSS3, Vanilla JS, Chart.js |
+| **Database** | MySQL 8.0 (8 tables, relational schema) |
+| **Build** | Gradle (Android), Maven (Backend) |
+| **Deploy** | Railway (API + DB), Netlify (Admin Panel) |
 
-* Java
-* Spring Boot
-* MySQL
-* DataSource
-* PreparedStatement
-* Maven
+---
 
-### Android App
+## Features at a Glance
 
-* Java
-* XML layouts
-* Retrofit
-* Android Studio
+<table>
+<tr>
+<td width="33%" valign="top">
 
-### Database
+### 📱 Android App
 
-* MySQL
-* Database name: `stationery_shop`
+- Register & login with sessions
+- Browse products by category
+- Search by name/description
+- Product detail with reviews
+- Shopping cart with checkout
+- Wishlist (save for later)
+- Order history with status tracking
+- Profile management
+- Material Design 3 UI
+- Student discount banners
 
-## Backend API
+</td>
+<td width="33%" valign="top">
 
-The backend is inside:
+### 🖥️ Admin Panel
 
-```text
-backend-api
+- Dashboard with live stats
+- Sales chart (Chart.js)
+- Order management (single & bulk)
+- Product CRUD + image preview
+- Quick restock (+50 button)
+- Customer overview
+- Revenue analytics
+- Invoice generation & print
+- Dark/light mode toggle
+- Global search
+- Auto-refresh (30s)
+
+</td>
+<td width="33%" valign="top">
+
+### ⚙️ Backend API
+
+- 30+ REST endpoints
+- Product search & filter
+- User auth (register/login)
+- Cart management
+- Wishlist system
+- Order placement + stock deduction
+- Review system (1–5 stars)
+- Admin analytics endpoints
+- Bulk operations
+- CORS configured
+
+</td>
+</tr>
+</table>
+
+---
+
+## API Endpoints
+
+<details>
+<summary><strong>Products</strong></summary>
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/products` | All products with ratings |
+| GET | `/products/{id}` | Single product |
+| GET | `/products/search?name=` | Search by name |
+| GET | `/products/category/{id}` | Filter by category |
+| GET | `/products/popular` | Top sellers |
+| GET | `/categories` | All categories |
+
+</details>
+
+<details>
+<summary><strong>Users</strong></summary>
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/users/register` | Create account |
+| POST | `/users/login` | Login |
+| GET | `/users/{id}` | Get profile |
+| PUT | `/users/{id}` | Update profile |
+
+</details>
+
+<details>
+<summary><strong>Cart & Wishlist</strong></summary>
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/cart` | Add to cart |
+| GET | `/cart/user/{userId}` | Get cart |
+| PUT | `/cart/{id}` | Update quantity |
+| DELETE | `/cart/{id}` | Remove item |
+| DELETE | `/cart/user/{userId}` | Clear cart |
+| POST | `/wishlists` | Add to wishlist |
+| GET | `/wishlists/user/{userId}` | Get wishlist |
+| DELETE | `/wishlists/{id}` | Remove item |
+
+</details>
+
+<details>
+<summary><strong>Orders & Reviews</strong></summary>
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/orders` | Place order |
+| GET | `/orders/user/{userId}` | Order history |
+| GET | `/orders/{orderId}` | Order detail |
+| POST | `/reviews` | Submit review |
+| GET | `/reviews/product/{productId}` | Product reviews |
+
+</details>
+
+<details>
+<summary><strong>Admin</strong></summary>
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/admin/dashboard` | Stats overview |
+| GET | `/admin/orders` | All orders |
+| PUT | `/admin/orders/{id}/status` | Update status |
+| PUT | `/admin/orders/bulk-status` | Bulk update |
+| GET | `/admin/customers` | All customers |
+| GET | `/admin/revenue-chart` | Revenue/day (30d) |
+| GET | `/admin/top-products` | Top sellers |
+| GET | `/admin/activity` | Recent activity |
+| POST | `/admin/products` | Add product |
+| PUT | `/admin/products/{id}` | Edit product |
+| DELETE | `/admin/products/{id}` | Delete product |
+| PUT | `/admin/products/{id}/stock` | Update stock |
+
+</details>
+
+---
+
+## Database Schema
+
+```
+┌──────────┐     ┌────────────┐     ┌──────────────┐
+│  users   │────<│   orders   │────<│ order_items  │
+└──────────┘     └────────────┘     └──────────────┘
+     │                                      │
+     │           ┌────────────┐     ┌──────────────┐
+     ├──────────<│ cart_items │────>│  products    │
+     │           └────────────┘     └──────────────┘
+     │                                 │        │
+     │           ┌────────────┐        │   ┌────────────┐
+     ├──────────<│ wishlists  │────────┘   │ categories │
+     │           └────────────┘            └────────────┘
+     │           ┌────────────┐
+     └──────────<│  reviews   │
+                 └────────────┘
 ```
 
-To open the backend:
+---
 
-1. Open the `backend-api` folder in VS Code.
-2. Make sure MySQL is running.
-3. Create a local `application.properties` file using the example file.
+## Quick Start
 
-The real `application.properties` file is not uploaded to GitHub because it contains the local MySQL password.
+### 1. Database
 
-Use this file as a guide:
-
-```text
-backend-api/src/main/resources/application-example.properties
+```bash
+# Install MySQL 8.0, then run:
+mysql -u root -p < database/stationery_shop.sql
+mysql -u root -p < database/add_new_products.sql
+mysql -u root -p < database/update_product_images.sql
 ```
 
-Create your own local file:
-
-```text
-backend-api/src/main/resources/application.properties
-```
-
-Example:
+### 2. Backend API
 
 ```properties
+# backend-api/src/main/resources/application.properties
 spring.datasource.url=jdbc:mysql://localhost:3306/stationery_shop
 spring.datasource.username=root
-spring.datasource.password=YOUR_MYSQL_PASSWORD
+spring.datasource.password=YOUR_PASSWORD
 server.port=8080
 ```
 
-To run the backend:
-
 ```bash
 cd backend-api
-.\mvnw spring-boot:run
+./mvnw spring-boot:run
+# Test: http://localhost:8080/products
 ```
 
-The API runs on:
+### 3. Android App
 
-```text
-http://localhost:8080
-```
+1. Open `android-app/` in Android Studio
+2. Set `BASE_URL` in `RetrofitClient.java`:
+   - Emulator: `http://10.0.2.2:8080/`
+   - Physical device: `http://YOUR_PC_IP:8080/`
+3. Run on device
 
-## Working API Endpoints
+### 4. Admin Panel
 
-### Products
+1. Open `admin-panel/index.html` in browser
+2. Login: `admin` / `admin123`
+3. Done — no install needed
 
-```http
-GET /products
-GET /products/{id}
-GET /products/search?name=pen
-```
+---
 
-### Users
+## Deployment
 
-```http
-GET /users/{id}
-POST /users/register
-POST /users/login
-```
+Deployable for free using Railway (backend + DB) and Netlify (admin panel).  
+Full guide: [DEPLOYMENT.md](./DEPLOYMENT.md)
 
-### Orders
+| Service | Host | Cost |
+|---------|------|------|
+| Backend API | Railway | Free tier |
+| MySQL DB | Railway | Free tier |
+| Admin Panel | Netlify | Free |
 
-```http
-POST /orders
-GET /orders/user/{userId}
-GET /orders/{orderId}
-```
+---
 
-### Reviews
+## Design System
 
-```http
-POST /reviews
-GET /reviews/product/{productId}
-```
+The Android app uses a custom color palette with Material Design 3:
 
-## Database Setup
+| Color | Hex | Usage |
+|-------|-----|-------|
+| Electric Lavender | `#8B5CF6` | Primary actions, headers |
+| Cyber Cyan | `#06B6D4` | Accents, links |
+| Neo-Mint | `#10B981` | Success states, stock badges |
 
-The database SQL file is inside:
+Glassmorphism-inspired cards, 16dp rounded corners, dark/light mode support.
 
-```text
-database/stationery_shop.sql
-```
+---
 
-To set up the database on a new PC:
+## Project Status
 
-1. Open MySQL Workbench.
-2. Connect to the local MySQL server.
-3. Open the SQL file:
+- [x] User authentication (register/login)
+- [x] Product browsing with categories & search
+- [x] Shopping cart with checkout
+- [x] Wishlist
+- [x] Order placement & history
+- [x] Review system
+- [x] Admin dashboard with analytics
+- [x] Admin product/order management
+- [x] Dark/light mode (admin panel)
+- [x] Cloud deployment ready
 
-```text
-database/stationery_shop.sql
-```
+---
 
-4. Run the script.
-5. It will create the `stationery_shop` database with all tables and sample data.
+<div align="center">
 
-The database includes these tables:
+Built as a student project — Android + Spring Boot + MySQL
 
-```text
-categories
-products
-users
-orders
-order_items
-reviews
-```
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=80&section=footer"/>
 
-## Android App
-
-The Android app is inside:
-
-```text
-android-app
-```
-
-To open it:
-
-1. Open Android Studio.
-2. Click **Open**.
-3. Select the `android-app` folder.
-4. Wait for Gradle sync to finish.
-5. Connect a real Android phone or use an emulator.
-6. Run the app.
-
-The Android app uses Retrofit to call the Spring Boot API.
-
-The Retrofit base URL is inside:
-
-```text
-android-app/app/src/main/java/com/example/stationeryshopapp/api/RetrofitClient.java
-```
-
-Example:
-
-```java
-private static final String BASE_URL = "http://192.168.1.117:8080/";
-```
-
-Important:
-
-* If the backend is running on the same PC as the Android emulator, use:
-
-```java
-http://10.0.2.2:8080/
-```
-
-* If the backend is running on another PC, use that PC's IPv4 address:
-
-```java
-http://YOUR_BACKEND_PC_IP:8080/
-```
-
-Example:
-
-```java
-http://192.168.1.117:8080/
-```
-
-The phone and backend PC must be connected to the same Wi-Fi network.
-
-## Current Android Features
-
-The Android app currently has:
-
-```text
-Register screen
-Login screen
-Home screen
-Product loading using Retrofit
-Session storage using SharedPreferences
-```
-
-After login, the user goes to the home page.
-
-## GitHub Team Workflow
-
-Before starting work, always run:
-
-```bash
-git pull
-```
-
-After making changes, run:
-
-```bash
-git status
-git add .
-git commit -m "Explain what you changed"
-git push
-```
-
-Example:
-
-```bash
-git add .
-git commit -m "Add home page menu"
-git push
-```
-
-## Team Rules
-
-To avoid Git conflicts:
-
-* Do not edit the same file at the same time.
-* Always pull before starting work.
-* Always push after finishing work.
-* Write clear commit messages.
-* Do not upload passwords.
-* Do not upload build folders.
-
-## Important Ignored Files
-
-These files/folders should not be uploaded:
-
-```text
-backend-api/target/
-backend-api/src/main/resources/application.properties
-android-app/.gradle/
-android-app/local.properties
-android-app/.idea/
-android-app/app/build/
-android-app/build/
-```
-
-These are ignored using `.gitignore`.
-
-## Notes
-
-Passwords are currently stored as plain text in the database because this is a student project. In a real production system, passwords should be hashed securely.
-
-## Main Developer
-
-Ayabee-creator
+</div>

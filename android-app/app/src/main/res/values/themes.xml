@@ -1,9 +1,63 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
     <style name="Base.Theme.StationeryShopApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Stationery Za Light Theme -->
+        <item name="colorPrimary">@color/primary_violet</item>
+        <item name="colorPrimaryDark">@color/primary_violet_dark</item>
+        <item name="colorAccent">@color/accent_cyan</item>
+        <item name="colorSecondary">@color/accent_cyan</item>
+        <item name="colorTertiary">@color/accent_mint</item>
+        <item name="android:colorBackground">@color/canvas_light</item>
+        <item name="colorSurface">@color/surface_light</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorOnSurface">@color/text_primary_light</item>
+        <item name="colorError">@color/error</item>
+        <item name="android:statusBarColor">@color/canvas_light</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
     </style>
 
     <style name="Theme.StationeryShopApp" parent="Base.Theme.StationeryShopApp" />
+
+    <!-- Stationery Za Button Style -->
+    <style name="StudyGridButton" parent="Widget.Material3.Button">
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="backgroundTint">@color/primary_violet</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+    </style>
+
+    <!-- Stationery Za Outlined Button -->
+    <style name="StudyGridButtonOutlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="strokeColor">@color/primary_violet</item>
+        <item name="android:textColor">@color/primary_violet</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+    </style>
+
+    <!-- Stationery Za Text Input Style -->
+    <style name="StudyGridTextInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="boxStrokeColor">@color/primary_violet</item>
+        <item name="hintTextColor">@color/primary_violet</item>
+    </style>
+
+    <!-- Category Chip Style -->
+    <style name="StudyGridChip" parent="Widget.Material3.Chip.Filter">
+        <item name="chipCornerRadius">20dp</item>
+        <item name="chipBackgroundColor">@color/card_light</item>
+        <item name="android:textColor">@color/text_primary_light</item>
+        <item name="chipStrokeColor">@color/divider_light</item>
+        <item name="chipStrokeWidth">1dp</item>
+    </style>
+
 </resources>

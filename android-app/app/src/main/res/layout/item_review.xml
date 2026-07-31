@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_card_rounded"
+    android:padding="14dp"
+    android:layout_marginBottom="10dp">
+
+    <!-- Header: Username + Rating -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="6dp">
+
+        <TextView
+            android:id="@+id/txtReviewUser"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Username"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary_light" />
+
+        <TextView
+            android:id="@+id/txtReviewStars"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="★★★★★"
+            android:textSize="13sp"
+            android:textColor="@color/warning" />
+
+    </LinearLayout>
+
+    <!-- Comment -->
+    <TextView
+        android:id="@+id/txtReviewComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Great product!"
+        android:textSize="13sp"
+        android:textColor="@color/text_secondary_light"
+        android:lineSpacingMultiplier="1.3" />
+
+    <!-- Date -->
+    <TextView
+        android:id="@+id/txtReviewDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="12 Jun 2026"
+        android:textSize="11sp"
+        android:textColor="@color/text_hint_light"
+        android:layout_marginTop="6dp" />
+
+</LinearLayout>
