@@ -1,8 +1,8 @@
 // ===== Stationery Za Admin Panel - Full App Logic =====
 
 // ===== CONFIG =====
-const ADMIN_USER = 'admin';
-const ADMIN_PASS = 'admin123';
+const ADMIN_USER = 'Ayabee';
+const ADMIN_PASS = 'aya';
 const REVENUE_GOAL = 2000; // Monthly goal in Rands
 let refreshInterval = null;
 let salesChart = null;

@@ -3,7 +3,7 @@
 // CHANGE THIS to your deployed backend URL when hosting online
 // Local development: 'http://localhost:8080'
 // Railway example: 'https://studygrid-backend-production.up.railway.app'
-const API_BASE = window.STUDYGRID_API || 'http://localhost:8080';
+const API_BASE = window.STUDYGRID_API || 'https://stationery-shop-app-production.up.railway.app';
 
 async function apiGet(endpoint) {
     try {

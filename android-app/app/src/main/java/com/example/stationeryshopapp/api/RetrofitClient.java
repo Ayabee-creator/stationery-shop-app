@@ -21,7 +21,7 @@ public class RetrofitClient {
     // PRODUCTION (Railway/Render - use this for Play Store release):
     //   "https://studygrid-backend-production.up.railway.app/"
     //
-    private static final String BASE_URL = "https://professor-thrive-family.ngrok-free.dev/";
+    private static final String BASE_URL = "https://stationery-shop-app-production.up.railway.app/";;
 
     public static ApiService getApiService() {
         if (retrofit == null) {
